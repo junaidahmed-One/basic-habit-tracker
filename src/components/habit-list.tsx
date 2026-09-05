@@ -2,10 +2,12 @@ import { Box, Button, Grid, Paper, Typography } from "@mui/material";
 import * as React from "react";
 import useHabitStore from "../store/store";
 import { CheckCircle } from "@mui/icons-material";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const HabitList = () => {
-  const { habits } = useHabitStore();
+  const { habits, removeHabit, toggleHabit } = useHabitStore();
   const today = new Date().toISOString().split("T")[0];
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 4 }}>
       {habits.map((habit) => (
@@ -25,6 +27,7 @@ const HabitList = () => {
                     habit.completedDates.includes(today) ? "success" : "primary"
                   }
                   startIcon={<CheckCircle />}
+                  onClick={() => toggleHabit(habit.id, today)}
                 >
                   {habit.completedDates.includes(today)
                     ? "Completed"
@@ -34,6 +37,7 @@ const HabitList = () => {
                   variant="outlined"
                   color="error"
                   startIcon={<DeleteIcon />}
+                  onClick={() => removeHabit(habit.id)}
                 >
                   remove
                 </Button>
